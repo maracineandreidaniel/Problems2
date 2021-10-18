@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.OptionalDouble;
+import java.util.stream.Collectors;
 
 public class OptionalProblems {
 
@@ -136,6 +137,56 @@ public class OptionalProblems {
 
     //todo:pb244
     //cand testam, este indicat sa folosim assertEquals direct pe Optionale, nu pentru continutul acestora
+
+
+    //todo:pb245
+    public static void cainiMap(){
+        ArrayList<Caine> caini=new ArrayList<>();
+        Caine c1=new Caine("ion",3);
+        Caine c2=new Caine("rex",4);
+        Caine c3=new Caine("cic",5);
+        caini.add(c1);
+        c1.setBlana(Optional.of("negru"));
+        caini.add(c2);
+        caini.add(c3);
+        c2.setBlana(Optional.of("alb"));
+        c3.setBlana(Optional.of("rosu"));
+        String nume=caini.stream().filter(c->c.getVarsta()<6).findFirst().flatMap(Caine::getBlana).map(String::toUpperCase).orElse("sdasd");
+        System.out.println(nume);
+    }
+
+    //todo:pb246
+    public static boolean filterOptional(){
+        Caine caine=new Caine("andi",4);
+        Optional<String> blana=caine.getBlana();
+        return blana.filter((i)->i.length()>3).isPresent();
+    }
+
+    //todo:pb247
+    public Optional<Caine> fetchCaineBlana(){
+        Caine caine=new Caine("Marcel",45);
+        return Optional.of(caine);
+    }
+
+//    public List<Caine> fetchCaini(List<String> blanuri){
+//        return blanuri.stream().map(this::fetchCaineBlana).flatMap(Optional::stream).collect(Collectors.toList());
+//    }
+
+    //todo:pb248
+    public static void equalityOptionals(){
+        //putem avea 2 cazuri: in cazul in care egalam cele 2 obiecte Optional sau in cazul in care comparam continutul lor
+        Optional<String> o1=Optional.of("Ionut");
+        Optional<String> o2=Optional.of("Ionut");
+        System.out.println(o1.equals(o2));//fals
+        System.out.println(o1.get().equals(o2.get()));//adevarat
+    }
+
+    //todo:pb249
+    public boolean emptyCaine(){
+        Optional<Caine> caine=this.fetchCaineBlana();
+        return caine.isEmpty();
+    }
+
 
 
 
