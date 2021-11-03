@@ -12,12 +12,16 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 import java.util.stream.Stream;
 import java.util.zip.GZIPInputStream;
+
+import static java.nio.file.StandardOpenOption.CREATE;
 
 public class HTTPProblems {
     public HTTPProblems() throws IOException, InterruptedException {
@@ -167,6 +171,31 @@ public class HTTPProblems {
         }
         return new String(allBytes, StandardCharsets.UTF_8);
     }
+
+    //todo:pb265
+    public static void handlingData(){
+        Map<Object,Object> data=new HashMap<>();
+        data.put("firstname","Andrei");
+        data.put("age","54");
+        HttpClient client=HttpClient.newHttpClient();
+        HttpRequest request=HttpRequest.newBuilder().header("Content-Type","application/x-www-form-urlen-coded").uri(URI.create("http://something")).POST(FormBodyPublisher.ofForm(data)).build();
+
+    }
+
+    //todo:pb266
+    public static void downloadResource() throws IOException, InterruptedException {
+        HttpClient client=HttpClient.newHttpClient();
+        HttpRequest request=HttpRequest.newBuilder().uri(URI.create("http://download")).build();
+        HttpResponse<Path> response=client.send(request,HttpResponse.BodyHandlers.ofFileDownload(Path.of(System.getProperty("user.dir")),CREATE));
+    }
+    //todo:pb267
+    public static void uploadMultipart(){
+        HttpClient client=HttpClient.newHttpClient();
+
+    }
+
+
+
 
 
 }
